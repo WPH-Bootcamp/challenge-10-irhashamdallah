@@ -12,10 +12,8 @@ interface CheckoutItem {
 }
 
 export default function CheckoutPage() {
-  // === State untuk Metode Pembayaran ===
   const [paymentMethod, setPaymentMethod] = useState<string>("bni");
 
-  // === Dummy Data Item yang di-Checkout ===
   const [checkoutItems] = useState<CheckoutItem[]>([
     {
       id: "item-1",
@@ -33,7 +31,6 @@ export default function CheckoutPage() {
     },
   ]);
 
-  // === Perhitungan Biaya ===
   const itemsTotal = checkoutItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -44,18 +41,14 @@ export default function CheckoutPage() {
 
   return (
     <div className="w-full min-h-screen bg-[#FDFDFD] text-gray-900 flex flex-col antialiased">
-      {/* ================= HEADER TITLE ================= */}
       <header className="max-w-5xl mx-auto w-full px-4 md:px-0 pt-10 pb-2">
         <h1 className="text-2xl font-black tracking-tight text-gray-950">
           Checkout
         </h1>
       </header>
 
-      {/* ================= MAIN LAYOUT ================= */}
       <main className="max-w-5xl mx-auto w-full px-4 md:px-0 pb-24 flex flex-col lg:flex-row gap-6 items-start">
-        {/* SISI KIRI: ALAMAT & ITEM (70% Lebar di Desktop) */}
         <div className="w-full lg:flex-1 space-y-4">
-          {/* BLOCK 1: ALAMAT PENGIRIMAN */}
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-3.5">
             <div className="flex items-center space-x-2 text-xs font-black text-gray-950 uppercase tracking-wider">
               <MapPin className="w-4 h-4 text-[#B12A1C]" />
@@ -76,7 +69,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* BLOCK 2: DETAIL ORDER & RESTORAN */}
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-4">
             {/* Nama Resto */}
             <div className="flex items-center space-x-2 w-fit">
@@ -87,7 +79,6 @@ export default function CheckoutPage() {
               <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
             </div>
 
-            {/* List Makanan */}
             <div className="space-y-4">
               {checkoutItems.map((item) => (
                 <div
@@ -111,7 +102,6 @@ export default function CheckoutPage() {
                       </p>
                     </div>
                   </div>
-                  {/* Quantity Indicator Statis */}
                   <span className="text-xs font-black text-gray-400 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">
                     {item.quantity}x
                   </span>
@@ -120,14 +110,12 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* BLOCK 3: PILIHAN METODE PEMBAYARAN */}
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-4">
             <div className="flex items-center space-x-2 text-xs font-black text-gray-950 uppercase tracking-wider">
               <CreditCard className="w-4 h-4 text-[#B12A1C]" />
               <span>Payment Method</span>
             </div>
 
-            {/* List Opsi Bank */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {[
                 {
@@ -168,7 +156,6 @@ export default function CheckoutPage() {
                       {bank.label}
                     </p>
                   </div>
-                  {/* Custom Radio Circle */}
                   <div
                     className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
                       paymentMethod === bank.id
@@ -186,13 +173,11 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        {/* SISI KANAN: RINGKASAN PEMBAYARAN & BUTTON (30% Lebar di Desktop) */}
         <div className="w-full lg:w-[320px] bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-4 shrink-0 lg:sticky lg:top-24">
           <h3 className="text-xs font-black text-gray-950 uppercase tracking-wider">
             Payment Summary
           </h3>
 
-          {/* Detail Breakdown Harga */}
           <div className="space-y-3 pt-1">
             <div className="flex justify-between text-xs font-bold text-gray-500">
               <span>
@@ -228,7 +213,6 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Tombol Eksekusi Akhir */}
           <button className="w-full py-3 bg-[#B12A1C] text-white text-xs font-black rounded-xl hover:bg-[#942015] active:scale-98 transition-all shadow-3xs tracking-wide">
             Buy Now
           </button>

@@ -10,15 +10,13 @@ import {
 } from "lucide-react";
 
 export default function ProfilePage() {
-  // === 1. STATE UNTUK FORM PROFILE (Fungsional & Bisa Diedit) ===
   const [profile, setProfile] = useState({
     name: "John Doe",
     email: "johndoe@gmail.com",
     phone: "081234567890",
-    avatar: "/avatar-john.png", // Gantilah dengan path gambar aslimu nanti
+    avatar: "/avatar-john.png", 
   });
 
-  // === 2. LOGIKA UPDATE PROFILE ===
   const handleUpdateProfile = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Updated Profile Data:", profile);
@@ -27,7 +25,6 @@ export default function ProfilePage() {
 
   return (
     <div className="w-full min-h-screen bg-[#FDFDFD] text-gray-900 flex flex-col antialiased">
-      {/* ================= HEADER NAVBAR (Sama di setiap page) ================= */}
       <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 md:px-10 h-16 flex items-center justify-between">
           {/* Logo Brand */}
@@ -68,9 +65,7 @@ export default function ProfilePage() {
           Profile
         </h1>
 
-        {/* LAYOUT GRID RESPONSIVE: SIDEBAR & UTAMA */}
         <div className="w-full flex flex-col md:flex-row gap-6 items-start">
-          {/* 1. SIDEBAR NAVIGASI (Hanya Muncul di Desktop md:flex, Tersembunyi di Mobile) */}
           <aside className="hidden md:flex w-[220px] bg-white border border-gray-100 rounded-2xl p-4 shrink-0 shadow-3xs flex-col space-y-4">
             {/* Profil Singkat */}
             <div className="flex items-center space-x-3 pb-2 border-b border-gray-50">
@@ -105,7 +100,6 @@ export default function ProfilePage() {
             </nav>
           </aside>
 
-          {/* 2. KARTU INFORMASI UTAMA PROFILE (Sangat Presisi & Editable) */}
           <main className="flex-1 w-full">
             <form
               onSubmit={handleUpdateProfile}
@@ -122,7 +116,6 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              {/* Grid Input Data Form */}
               <div className="space-y-4">
                 {/* Field 1: Name */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-1 md:gap-4 border-b border-gray-50 pb-3">
@@ -184,12 +177,8 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* ===================== FOOTER UTAMA ===================== */}
-      {/* ========================================================= */}
       <footer className="w-full bg-[#0E131F] text-white py-12 px-6 md:px-16 mt-auto">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-          {/* Kolom Kiri: Brand & Deskripsi */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <span className="text-lg font-black tracking-tight">Foody</span>
@@ -198,7 +187,6 @@ export default function ProfilePage() {
               {`Enjoy homemade flavors & chef's signature dishes, freshly prepared every day. Order online or visit our nearest branch.`}
             </p>
             {/* Social Media Links */}
-            {/* Jajaran Social Media yang Baru & Dijamin Anti Eror */}
             <div className="flex items-center space-x-2">
               {/* Facebook */}
               <a

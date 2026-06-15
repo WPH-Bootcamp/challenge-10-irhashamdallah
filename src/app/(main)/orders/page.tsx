@@ -27,16 +27,14 @@ interface Order {
 }
 
 export default function MyOrdersPage() {
-  // === 1. STATE MANAGEMENT ===
   const [activeTab, setActiveTab] = useState<string>("Done");
-  const [searchQuery, setSearchQuery] = useState<string>("B"); // Mengisi default 'B' agar memicu filter "Burger King" sesuai contoh
+  const [searchQuery, setSearchQuery] = useState<string>("B"); 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedRating, setSelectedRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [activeOrderId, setActiveOrderId] = useState<string | null>(null);
 
-  // === 2. DUMMY DATA RIWAYAT ORDERS (Sesuai Desain Figma) ===
   const [orders] = useState<Order[]>([
     {
       id: "order-1",
@@ -90,7 +88,6 @@ export default function MyOrdersPage() {
     "Canceled",
   ];
 
-  // === 3. LOGIKA UNTUK ACTION MODAL REVIEW ===
   const handleOpenReviewModal = (orderId: string) => {
     setActiveOrderId(orderId);
     setSelectedRating(0);
@@ -112,7 +109,6 @@ export default function MyOrdersPage() {
     alert("Thank you for your valuable feedback!");
   };
 
-  // === 4. LOGIKA FILTER SEARCH DAN TAB STATUS ===
   const filteredOrders = orders.filter((order) => {
     const matchesStatus = order.status === activeTab;
     const matchesSearch =
@@ -126,16 +122,12 @@ export default function MyOrdersPage() {
 
   return (
     <div className="w-full min-h-screen bg-[#FDFDFD] text-gray-900 flex flex-col antialiased relative">
-      {/* CONTAINER HALAMAN UTAMA */}
       <div className="max-w-6xl mx-auto w-full px-6 md:px-16 pt-10 pb-24">
-        {/* JUDUL UTAMA */}
         <h1 className="text-2xl font-black tracking-tight text-gray-950 mb-8">
           My Orders
         </h1>
 
-        {/* LAYOUT GRID: SIDEBAR (KIRI) & KONTEN (KANAN) */}
         <div className="w-full flex flex-col md:flex-row gap-8 items-start">
-          {/* ================= SIDEBAR NAVIGASI USER ================= */}
           <aside className="w-full md:w-[240px] bg-white border border-gray-100 rounded-2xl p-5 shrink-0 shadow-3xs space-y-6">
             {/* Profil Singkat */}
             <div className="flex items-center space-x-3 pb-2 border-b border-gray-100">
@@ -151,7 +143,6 @@ export default function MyOrdersPage() {
               </span>
             </div>
 
-            {/* Navigasi Link Menu */}
             <nav className="flex flex-col space-y-1">
               <button className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition-colors">
                 <MapPin className="w-4 h-4 text-gray-400" />
@@ -170,9 +161,7 @@ export default function MyOrdersPage() {
             </nav>
           </aside>
 
-          {/* ================= AREA KONTEN UTAMA RIWAYAT PESANAN ================= */}
           <div className="flex-1 w-full space-y-5">
-            {/* SEARCH BAR INPUT */}
             <div className="w-full flex items-center border border-gray-200 rounded-2xl px-4 py-3 bg-white focus-within:border-gray-400 transition-colors max-w-xl">
               <Search className="w-4 h-4 text-gray-300 mr-3 shrink-0" />
               <input
@@ -184,7 +173,6 @@ export default function MyOrdersPage() {
               />
             </div>
 
-            {/* CAPSULE TAB FILTERS */}
             <div
               className="w-full flex items-center gap-2 overflow-x-auto scrollbar-none py-1"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
@@ -210,7 +198,6 @@ export default function MyOrdersPage() {
               })}
             </div>
 
-            {/* ORDER CARDS WRAPPER */}
             <div className="space-y-4">
               {filteredOrders.length > 0 ? (
                 filteredOrders.map((order) => {
@@ -224,7 +211,6 @@ export default function MyOrdersPage() {
                       key={order.id}
                       className="bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-4"
                     >
-                      {/* Header Toko/Restoran */}
                       <div className="flex items-center space-x-2 w-fit">
                         <span className="text-base">📦</span>
                         <span className="text-xs font-black text-gray-950 tracking-tight">
@@ -233,7 +219,6 @@ export default function MyOrdersPage() {
                         <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
                       </div>
 
-                      {/* List Item Menu Makanan */}
                       <div className="space-y-4">
                         {order.items.map((item) => (
                           <div
@@ -302,9 +287,6 @@ export default function MyOrdersPage() {
         </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* ================= 5. GIVE REVIEW MODAL COMPONENT ================= */}
-      {/* ========================================================= */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
           {/* Backdrop Transparan Gelap Blur */}

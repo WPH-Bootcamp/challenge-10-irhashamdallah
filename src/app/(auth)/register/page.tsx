@@ -14,7 +14,6 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
-  // State tambahan untuk integrasi API asli
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -24,7 +23,6 @@ export default function RegisterPage() {
     setError(""); // Reset pesan error setiap kali tombol ditekan
 
     try {
-      // 1. Tembak API Register asli sesuai dokumentasi Swagger
       const response = await fetch(
         "https://be-restaurant-production.up.railway.app/api/auth/register",
         {
@@ -51,11 +49,9 @@ export default function RegisterPage() {
         );
       }
 
-      // 3. Jika berhasil, kita tendang user langsung ke halaman login agar mereka bisa masuk
       router.push("/login");
     } catch (err: unknown) {
       console.error(err);
-      // Menggunakan penanganan error yang aman dari aturan strict mode TypeScript
       const errorMessage =
         err instanceof Error ? err.message : "Gagal terhubung ke server.";
       setError(errorMessage);
@@ -66,7 +62,6 @@ export default function RegisterPage() {
 
   return (
     <div className="w-full min-h-screen bg-white flex">
-      {/* LEFT SIDE: HERO IMAGE (Desktop Only) */}
       <div className="hidden md:block md:w-1/2 relative h-screen bg-[#1A1C1C]">
         <img
           src="/login-hero.png"
@@ -75,14 +70,13 @@ export default function RegisterPage() {
         />
       </div>
 
-      {/* RIGHT SIDE: FORM REGISTER */}
       <div className="w-full md:w-1/2 flex flex-col justify-center py-8 px-6 sm:px-16 lg:px-24 bg-white text-gray-900 overflow-y-auto">
         <div className="w-full max-w-md mx-auto space-y-5">
           {/* Logo & Brand Header */}
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <img
-                src="/logo.png" // Memperbaiki penulisan jalur logo agar presisi (/logo.png)
+                src="/logo.png" 
                 alt="Foody Logo"
                 className="w-6 h-6 object-contain"
               />
@@ -98,7 +92,6 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* CAPSULE TOGGLE FOR ROUTING */}
           <div className="w-full grid grid-cols-2 bg-gray-100 p-1 rounded-full">
             <button
               type="button"
@@ -113,16 +106,13 @@ export default function RegisterPage() {
             </button>
           </div>
 
-          {/* FORM REGISTER FIELDS */}
           <form onSubmit={handleRegister} className="space-y-3.5">
-            {/* ALERT BOX ERROR (Muncul jika registrasi gagal dari server) */}
             {error && (
               <div className="p-3.5 bg-red-50 border border-red-100 text-red-600 rounded-xl text-xs font-bold text-center animate-pulse">
                 {error}
               </div>
             )}
 
-            {/* Name Field */}
             <div className="space-y-1">
               <label className="text-xs font-bold text-gray-700">Name</label>
               <Input
@@ -150,7 +140,6 @@ export default function RegisterPage() {
               />
             </div>
 
-            {/* Number Phone Field */}
             <div className="space-y-1">
               <label className="text-xs font-bold text-gray-700">
                 Number Phone
@@ -196,7 +185,6 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* SIGN UP BUTTON WITH LOADING ANIMATION */}
             <Button
               type="submit"
               disabled={isLoading}

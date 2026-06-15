@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Loader2 } from "lucide-react"; // Menambahkan Loader2 untuk efek loading
+import { Eye, EyeOff, Loader2 } from "lucide-react"; 
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,17 +12,15 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // State tambahan untuk integrasi API asli
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(""); // Reset pesan error setiap kali tombol ditekan
+    setError(""); 
 
     try {
-      // 1. Tembak API Login asli sesuai dokumentasi Swagger
       const response = await fetch(
         "https://be-restaurant-production.up.railway.app/api/auth/login",
         {
@@ -39,35 +37,27 @@ export default function LoginPage() {
 
       const result = await response.json();
 
-      // 2. Cek jika validasi server gagal (Gagal login)
       if (!response.ok) {
         throw new Error(
           result.message || "Email atau password yang kamu masukkan salah.",
         );
       }
 
-      /* 3. Jika sukses, ambil token JWT asli dan nama user.
-           Struktur data dinamis mencakup 'result.token' atau 'result.data.token' 
-           sesuai respon objek Swagger Railway.
-      */
       const token = result.token || result.data?.token;
       const userName =
         result.user?.name || result.data?.user?.name || "User Foody";
 
       if (token) {
-        // Simpan data asli ke dalam localStorage browser
         localStorage.setItem("token", token);
         localStorage.setItem("user_name", userName);
 
-        // 4. Tendang balik ke beranda utama
         router.push("/");
-        router.refresh(); // PENTING: Memicu useEffect di HomePage untuk merubah Navbar
+        router.refresh();
       } else {
         throw new Error("Format token tidak dikenali oleh sistem.");
       }
     }  catch (err: unknown) {
       console.error(err);
-      // Sembuhkan eror properti dengan mengubah err menjadi objek Error resmi
       const errorMessage = err instanceof Error ? err.message : "Gagal terhubung ke server.";
       setError(errorMessage);
     } finally {
@@ -77,7 +67,6 @@ export default function LoginPage() {
 
   return (
     <div className="w-full min-h-screen bg-white flex">
-      {/* LEFT SIDE: HERO IMAGE (Hanya muncul di Desktop sesuai Figma) */}
       <div className="hidden md:block md:w-1/2 relative h-screen bg-[#1A1C1C]">
         <img
           src="/login-hero.png"
@@ -86,7 +75,6 @@ export default function LoginPage() {
         />
       </div>
 
-      {/* RIGHT SIDE: FORM LOGIN (Responsive Full di Mobile) */}
       <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-16 lg:px-24 bg-white text-gray-900">
         <div className="w-full max-w-md mx-auto space-y-6">
           {/* Logo & Brand Header */}
@@ -109,7 +97,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* CAPSULE TOGGLE FOR ROUTING (Persis Gambar Figma) */}
           <div className="w-full grid grid-cols-2 bg-gray-100 p-1 rounded-full">
             <button className="py-2 text-xs font-bold bg-white text-gray-900 rounded-full shadow-2xs">
               Sign In
@@ -123,16 +110,13 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* FORM INPUT FIELD */}
           <form onSubmit={handleLogin} className="space-y-4 pt-2">
-            {/* ALERT BOX ERROR (Muncul jika user salah memasukkan akun) */}
             {error && (
               <div className="p-3.5 bg-red-50 border border-red-100 text-red-600 rounded-xl text-xs font-bold text-center animate-pulse">
                 {error}
               </div>
             )}
 
-            {/* Email Field */}
             <div className="space-y-1.5">
               <label className="text-text-sm font-semibold text-gray-700">
                 Email
@@ -148,7 +132,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password Field */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="text-text-sm font-semibold text-gray-700">
@@ -180,7 +163,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Remember Me checkbox & Forgot Password */}
             <div className="flex items-center justify-between pt-1">
               <label className="flex items-center space-x-2 text-xs text-gray-500 cursor-pointer select-none">
                 <input
@@ -198,7 +180,6 @@ export default function LoginPage() {
               </a>
             </div>
 
-            {/* SIGN IN BUTTON WITH LOADING ANIMATION */}
             <Button
               type="submit"
               disabled={isLoading}

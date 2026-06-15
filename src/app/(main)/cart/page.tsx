@@ -59,7 +59,6 @@ export default function MyCartPage() {
     },
   ]);
 
-  // === Fungsi Mengubah Quantity (Tambah / Kurang) ===
   const updateQuantity = (
     groupIndex: number,
     itemIndex: number,
@@ -75,28 +74,24 @@ export default function MyCartPage() {
     }
   };
 
-  // === Fungsi Hitung Total Harga per Restoran ===
   const calculateGroupTotal = (items: CartItem[]) => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
     <div className="w-full min-h-screen bg-white text-gray-900 flex flex-col antialiased">
-      {/* ================= HEADER / TITLE SECTION ================= */}
       <header className="max-w-3xl mx-auto w-full px-4 md:px-0 pt-10 pb-2">
         <h1 className="text-2xl font-black tracking-tight text-gray-950">
           My Cart
         </h1>
       </header>
 
-      {/* ================= CART GROUPS LIST ================= */}
       <main className="max-w-3xl mx-auto w-full px-4 md:px-0 pb-24 space-y-5">
         {cartGroups.map((group, groupIdx) => (
           <div
             key={groupIdx}
             className="bg-white border border-gray-100 rounded-2xl p-5 shadow-3xs space-y-5"
           >
-            {/* Header Restoran (Ikon Box + Nama Resto + Chevron) */}
             <div className="flex items-center space-x-2 cursor-pointer w-fit group">
               <span className="text-base">📦</span>
               <span className="text-xs font-black text-gray-950 tracking-tight">
@@ -105,14 +100,12 @@ export default function MyCartPage() {
               <ChevronRight className="w-3.5 h-3.5 text-gray-400 group-hover:translate-x-0.5 transition-transform" />
             </div>
 
-            {/* Daftar Item Menu di Resto Ini */}
             <div className="space-y-4">
               {group.items.map((item, itemIdx) => (
                 <div
                   key={item.id}
                   className="flex items-center justify-between"
                 >
-                  {/* Info Makanan (Foto + Teks Deskripsi) */}
                   <div className="flex items-center space-x-3">
                     <div className="w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-gray-100 bg-gray-50">
                       <img
@@ -131,7 +124,6 @@ export default function MyCartPage() {
                     </div>
                   </div>
 
-                  {/* Tombol Aksi Quantity (+ / -) */}
                   <div className="flex items-center space-x-3.5">
                     <button
                       onClick={() => updateQuantity(groupIdx, itemIdx, -1)}
@@ -153,10 +145,8 @@ export default function MyCartPage() {
               ))}
             </div>
 
-            {/* Garis Pembatas Tipis Sesuai Gambar Figma */}
             <hr className="border-gray-100 border-dashed" />
 
-            {/* Bagian Bawah: Total & Tombol Checkout */}
             <div className="flex items-end justify-between pt-1">
               <div className="space-y-0.5">
                 <span className="text-[10px] font-bold text-gray-400 block">

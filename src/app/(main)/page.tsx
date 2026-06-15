@@ -65,30 +65,25 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 📡 TANSTACK QUERY 1: Ambil Data Profil User Secara Realtime saat Token Ada
   const { data: profileData } = useQuery({
     queryKey: ["userProfile", token],
     queryFn: async () => {
       if (!token) return null;
-      // Menembak endpoint profil bawaan Swagger menggunakan Bearer Token otomatis dari Axios interceptor
       const response = await api.get("/api/auth/profile");
       return response.data;
     },
-    enabled: !!token, // Query hanya akan berjalan jika user sudah memiliki token (sudah login)
+    enabled: !!token, 
   });
 
-  // 📡 EFFECT SINKRONISASI: Masukkan Nama User Asli dari Backend ke Zustand secara Otomatis
   useEffect(() => {
     if (profileData) {
       const userPayload = profileData.data || profileData;
       if (userPayload?.name && userPayload.name !== userName) {
-        // Amankan token lama dan perbarui nama user asli dari server
         setAuth(token || "", userPayload.name);
       }
     }
   }, [profileData, token, userName, setAuth]);
 
-  // 📡 TANSTACK QUERY 2: Mengambil Data Restoran Nyata dari Server
   const {
     data: restaurantResponse,
     isLoading,
@@ -101,9 +96,7 @@ export default function HomePage() {
     },
   });
 
-  // ================= AMANKAN FORMAT DATA & FAILSAFE EMERGENCY =================
   const getSafeRestaurants = (): LocalRestaurant[] => {
-    // 🧪 PRINT UNTUK INSTANT DEBUGGING (Cek di Inspect Element -> Console)
     if (restaurantResponse) {
       console.log(
         "👉 STRUKTUR KEY DARI SWAGGER KAMU:",
@@ -134,7 +127,6 @@ export default function HomePage() {
       if (Array.isArray(rawObj.results))
         return rawObj.results as LocalRestaurant[];
 
-      // Detektif otomatis mencari array di dalam object
       const keys = Object.keys(rawObj);
       for (const key of keys) {
         if (Array.isArray(rawObj[key])) {
@@ -143,11 +135,9 @@ export default function HomePage() {
       }
     }
 
-    // 🚨 EMERGENCY FALLBACK: Jika API macet / struktur tidak terbaca, keluarkan Mock Data agar UI tidak blank
     return getMockData();
   };
 
-  // 📦 FUNGSI PEMBENTUK MOCK DATA (100% STRICLY TYPED - AMAN DARI LINTER)
   const getMockData = (): LocalRestaurant[] => {
     return Array.from({ length: 12 }, (_, index) => ({
       id: `mock-id-${index + 1}`,
@@ -161,24 +151,19 @@ export default function HomePage() {
   };
   const restaurants = getSafeRestaurants();
 
-  // 🔬 Intip isi datanya di console browser
   console.log("1. RESPONS ASLI SWAGGER:", restaurantResponse);
   console.log("2. HASIL EKSTRAKSI ARRAY:", restaurants);
-  // ================= FILTER PENCARIAN & KATEGORI DINAMIS (TYPED SAFELY) =================
   const filteredRestaurants = restaurants.filter((resto: LocalRestaurant) => {
     if (!resto) return false;
 
-    // 1. Amankan Pencarian Teks (Search Bar)
     const nameText = resto.name ? String(resto.name).toLowerCase() : "";
     const searchTarget = searchQuery ? searchQuery.toLowerCase().trim() : "";
     const matchesSearch = nameText.includes(searchTarget);
 
-    // 2. Amankan Pengecekan Kategori Dinamis Khas Figma
     if (activeCategory === "all") {
       return matchesSearch;
     }
 
-    // Mengambil kategori dengan aman lewat property yang sudah terdaftar di interface
     const restoCategory = resto.category || resto.cuisine || resto.type || "";
 
     const matchesCategory =
@@ -188,7 +173,6 @@ export default function HomePage() {
     return matchesSearch && matchesCategory;
   });
 
-  // Menentukan Nama Tampilan (Gunakan data realtime server, jika belum selesai loading pakai data Zustand)
   const displayUserName =
     profileData?.data?.name || profileData?.name || userName || "User Foody";
 
@@ -216,7 +200,6 @@ export default function HomePage() {
 
   return (
     <div className="w-full min-h-screen bg-white text-gray-900 flex flex-col antialiased">
-      {/* ================= 1. DYNAMIC NAVIGATION BAR ================= */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-24 py-4 flex items-center justify-between ${
           isScrolled
@@ -254,9 +237,7 @@ export default function HomePage() {
               </Link>
             </>
           ) : (
-            // ================= TAMPILAN SETELAH LOGIN (1:1 PRESISI FIGMA) =================
             <div className="flex items-center space-x-4">
-              {/* 1. Icon Keranjang Belanja / Gembok */}
               <Link
                 href="/cart"
                 className={`p-1.5 hover:opacity-80 transition-opacity flex items-center justify-center ${
@@ -281,7 +262,6 @@ export default function HomePage() {
                 </svg>
               </Link>
 
-              {/* 2. Tombol Avatar Bulat Tanpa Teks Samping (Sesuai Figma) */}
               <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -294,10 +274,8 @@ export default function HomePage() {
                   />
                 </button>
 
-                {/* 3. Dropdown Menu Melayang dengan Nama User di Dalamnya */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-3 w-56 bg-white border border-gray-100 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.08)] py-2 z-50 text-gray-900 animate-in fade-in slide-in-from-top-2 duration-150">
-                    {/* Di sini baru nama usernya muncul bersama foto profile */}
                     <div className="px-4 py-3 flex items-center space-x-3 border-b border-gray-50">
                       <img
                         src="/avatar.png"
@@ -340,7 +318,6 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* ================= 2. PREMIUM HERO DARK SECTION ================= */}
       <section className="w-full h-[480px] md:h-[580px] bg-[#0C0D0D] relative flex flex-col items-center justify-center text-center px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-40 mix-blend-lighten pointer-events-none">
           <img
@@ -374,7 +351,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= 3. WHITE BOX CATEGORY GRID BAR ================= */}
       <section className="max-w-6xl mx-auto w-full px-6 md:px-12 pt-8 relative z-20">
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 text-center">
           {CATEGORIES.map((cat: CategoryItem) => (
@@ -402,7 +378,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= 4. RECOMMENDED GRID CONTENT ================= */}
       <section className="max-w-6xl mx-auto w-full px-6 md:px-12 py-12 flex-1">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-base md:text-lg font-black tracking-tight text-gray-900">
@@ -465,7 +440,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= 5. DARK FIGMA FOOTER ================= */}
       <footer className="w-full bg-[#0C0D0D] text-white border-t border-white/5 mt-auto">
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-3">

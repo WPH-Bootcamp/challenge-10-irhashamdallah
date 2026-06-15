@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ================= 1. FONTS CONFIGURATION ================= */
+  /* Mengatur Nunito sebagai font utama (sans-serif) */
+  --font-sans: "Nunito", sans-serif;
+
+  /* ================= 2. TYPOGRAPHY SCALE CONFIGURATION ================= */
+  /* Format Tailwind v4: --text-[nama]: [font-size] [line-height] [letter-spacing] */
+  --text-display-3xl: 3.75rem 4.5rem;
+  --text-display-2xl: 3rem 3.75rem -0.02em;
+  --text-display-xl: 2.5rem 3rem -0.02em;
+  --text-display-lg: 2.25rem 2.75rem -0.02em;
+  --text-display-md: 2rem 2.5rem;
+  --text-display-sm: 1.75rem 2.375rem;
+  --text-display-xs: 1.5rem 2.25rem;
+  
+  --text-text-xl: 1.25rem 2.125rem;
+  --text-text-lg: 1.125rem 2rem;
+  --text-text-md: 1rem 1.875rem;
+  --text-text-sm: 0.875rem 1.75rem;
+  --text-text-xs: 0.75rem 1.5rem;
+
+  /* ================= 3. COLOR TOKENS ================= */
+  /* Menyinkronkan warna latar belakang gelap pekat sesuai figma */
+  --color-base-background: #0C0D0D;
+  --color-base-white: #FFFFFF;
+  
+  /* Menyinkronkan warna merah kuliner khas Foody App */
+  --color-primary-main: #DC2626; 
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ================= 4. UTILITIES CONFIGURATION ================= */
+@layer utilities {
+  /* Menghilangkan scrollbar pada slider kategori makanan di mobile */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
